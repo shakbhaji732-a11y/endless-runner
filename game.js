@@ -74,9 +74,49 @@ window.addEventListener("resize", () => {
 function animate() {
 
     requestAnimationFrame(animate);
+// Move Ground
+ground.position.z += speed;
 
+if (ground.position.z > 100) {
+
+    ground.position.z = 0;
+
+}
+
+// Follow Lane
+player.position.x += (lanes[lane] - player.position.x) * 0.15;
+
+// Camera Follow
+camera.position.x = player.position.x;
+
+camera.lookAt(
+
+player.position.x,
+
+1,
+
+0
+
+);
     renderer.render(scene, camera);
 
 }
 
 animate();
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="ArrowLeft"){
+
+lane--;
+
+}
+
+if(e.key==="ArrowRight"){
+
+lane++;
+
+}
+
+lane=Math.max(0,Math.min(2,lane));
+
+});
