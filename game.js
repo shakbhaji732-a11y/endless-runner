@@ -51,6 +51,11 @@ const player = new THREE.Mesh(
 );
 
 player.position.y = 1;
+let lane = 0;
+
+const lanes = [-2, 0, 2];
+
+let speed = 0.25;
 player.castShadow = true;
 scene.add(player);
 
