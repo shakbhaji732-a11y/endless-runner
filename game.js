@@ -42,3 +42,43 @@ new THREE.MeshStandardMaterial({color:0x444444})
 road.position.y=-0.45;
 road.position.z=-140;
 scene.add(road);
+// PART 2
+
+const player = new THREE.Group();
+
+const body = new THREE.Mesh(
+    new THREE.BoxGeometry(0.8,1.5,0.5),
+    new THREE.MeshStandardMaterial({color:0x1565C0})
+);
+body.position.y=1.5;
+player.add(body);
+
+const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.35,32,32),
+    new THREE.MeshStandardMaterial({color:0xffd7b5})
+);
+head.position.y=2.6;
+player.add(head);
+
+const leftLeg = new THREE.Mesh(
+    new THREE.BoxGeometry(0.25,1,0.25),
+    new THREE.MeshStandardMaterial({color:0x222222})
+);
+leftLeg.position.set(-0.18,0.5,0);
+player.add(leftLeg);
+
+const rightLeg = leftLeg.clone();
+rightLeg.position.x=0.18;
+player.add(rightLeg);
+
+scene.add(player);
+
+player.position.set(0,0,5);
+
+let lane=0;
+let targetX=0;
+
+let velocityY=0;
+let jumping=false;
+
+const laneWidth=2;
