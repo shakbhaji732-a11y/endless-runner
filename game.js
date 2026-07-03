@@ -82,3 +82,58 @@ let velocityY=0;
 let jumping=false;
 
 const laneWidth=2;
+// PART 3
+
+window.addEventListener("keydown",(e)=>{
+
+    if(e.key==="ArrowLeft" || e.key==="a"){
+        lane=Math.max(-1,lane-1);
+    }
+
+    if(e.key==="ArrowRight" || e.key==="d"){
+        lane=Math.min(1,lane+1);
+    }
+
+    if((e.key==="ArrowUp" || e.key===" " || e.key==="w") && !jumping){
+        velocityY=0.22;
+        jumping=true;
+    }
+
+});
+
+window.addEventListener("touchstart",(e)=>{
+
+    const x=e.touches[0].clientX;
+    const y=e.touches[0].clientY;
+
+    if(y<window.innerHeight*0.4 && !jumping){
+        velocityY=0.22;
+        jumping=true;
+        return;
+    }
+
+    if(x<window.innerWidth/3){
+        lane=Math.max(-1,lane-1);
+    }
+    else if(x>window.innerWidth*2/3){
+        lane=Math.min(1,lane+1);
+    }
+
+});
+
+function updatePlayer(){
+
+    targetX=lane*laneWidth;
+
+    player.position.x += (targetX-player.position.x)*0.2;
+
+    velocityY-=0.012;
+    player.position.y+=velocityY;
+
+    if(player.position.y<=0){
+        player.position.y=0;
+        velocityY=0;
+        jumping=false;
+    }
+
+}
