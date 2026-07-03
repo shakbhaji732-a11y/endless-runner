@@ -137,3 +137,81 @@ function updatePlayer(){
     }
 
 }
+// PART 4
+
+const obstacles=[];
+
+function createObstacle(){
+
+    const box=new THREE.Mesh(
+        new THREE.BoxGeometry(1,2,1),
+        new THREE.MeshStandardMaterial({color:0xff0000})
+    );
+
+    const lane=Math.floor(Math.random()*3)-1;
+
+    box.position.set(lane*laneWidth,0,-100);
+
+    box.castShadow=true;
+
+    scene.add(box);
+
+    obstacles.push(box);
+
+}
+
+setInterval(createObstacle,1000);
+
+let score=0;
+
+function animate(){
+
+    requestAnimationFrame(animate);
+
+    updatePlayer();
+
+    for(let i=obstacles.length-1;i>=0;i--){
+
+        obstacles[i].position.z+=0.6;
+
+        if(obstacles[i].position.z>10){
+
+            scene.remove(obstacles[i]);
+            obstacles.splice(i,1);
+
+            score++;
+
+            document.getElementById("score").innerHTML="Score : "+score;
+
+            continue;
+        }
+
+        if(
+            Math.abs(obstacles[i].position.z-player.position.z)<1 &&
+            Math.abs(obstacles[i].position.x-player.position.x)<0.8 &&
+            player.position.y<1.5
+        ){
+
+            alert("Game Over\nScore : "+score);
+
+            location.reload();
+
+        }
+
+    }
+
+    renderer.render(scene,camera);
+
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+
+    camera.aspect=window.innerWidth/window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth,window.innerHeight);
+
+});
